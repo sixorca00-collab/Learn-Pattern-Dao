@@ -1,8 +1,10 @@
 package com.app.view;
 
 import com.app.model.entity.Usuario;
+import com.app.model.entity.Producto;
 import java.util.List;
 import java.util.Scanner;
+import java.util.NoSuchElementException;
 
 /**
  * Vista de consola (System.in / System.out).
@@ -32,6 +34,16 @@ public class ConsoleView extends BaseView {
     }
 
     @Override
+    public void showProductos(List<Producto> productos) {
+        System.out.println("\n" + formatProductos(productos));
+    }
+
+    @Override
+    public void showProducto(Producto producto) {
+        System.out.println("\n" + formatProducto(producto));
+    }
+
+    @Override
     public String askInput(String prompt) {
         System.out.print(prompt + ": ");
         return scanner.nextLine().trim();
@@ -55,6 +67,20 @@ public class ConsoleView extends BaseView {
         try {
             return Integer.parseInt(scanner.nextLine().trim());
         } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    @Override
+    public int getProductMenuChoice() {
+        System.out.print("Opción: ");
+        try {
+            String input = scanner.nextLine();
+            if (input == null || input.trim().isEmpty()) {
+                return -1;
+            }
+            return Integer.parseInt(input.trim());
+        } catch (NumberFormatException | NoSuchElementException e) {
             return -1;
         }
     }

@@ -1,6 +1,7 @@
 package com.app.view;
 
 import com.app.model.entity.Usuario;
+import com.app.model.entity.Producto;
 import javax.swing.JOptionPane;
 import java.util.List;
 
@@ -37,6 +38,20 @@ public class SwingView extends BaseView {
     }
 
     @Override
+    public void showProductos(List<Producto> productos) {
+        JOptionPane.showMessageDialog(null,
+                formatProductos(productos), "Lista de Productos",
+                JOptionPane.PLAIN_MESSAGE);
+    }
+
+    @Override
+    public void showProducto(Producto producto) {
+        JOptionPane.showMessageDialog(null,
+                formatProducto(producto), "Detalle de Producto",
+                JOptionPane.PLAIN_MESSAGE);
+    }
+
+    @Override
     public String askInput(String prompt) {
         return JOptionPane.showInputDialog(null, prompt);
     }
@@ -64,6 +79,20 @@ public class SwingView extends BaseView {
                 null, "Selecciona una opción:", "Menú",
                 JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
         if (sel == null) return 6; // Salir
+        for (int i = 0; i < opts.length; i++) {
+            if (opts[i].equals(sel)) return i + 1;
+        }
+        return -1;
+    }
+
+    @Override
+    public int getProductMenuChoice() {
+        String[] opts = {"Listar todos", "Buscar por ID", "Buscar por nombre", "Buscar por rango de precio",
+                "Crear producto", "Actualizar producto", "Eliminar producto", "Listar disponibles", "Salir"};
+        Object sel = JOptionPane.showInputDialog(
+                null, "Selecciona una opción:", "Menú Productos",
+                JOptionPane.PLAIN_MESSAGE, null, opts, opts[0]);
+        if (sel == null) return 9; // Salir
         for (int i = 0; i < opts.length; i++) {
             if (opts[i].equals(sel)) return i + 1;
         }
